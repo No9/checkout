@@ -3,29 +3,33 @@
  */
 
 var numbers = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
-var startAngle = 9;
+var startAngle = 4.55;
 var arc = Math.PI / 10;
 var ctx;
 var blackColor = "#000000";
 var numberColor = "#ffffff";
-var maincolors = ["#B8D430", "#3AB745"];
-var multipecolors = ["#B8D430", "#3AB745"];
+var maincolors = ["#000000", "#D2CFA6"];
+var multipecolors = ["#C41F26", "#42B955"];
 
 function drawboard() {
   var canvas = document.getElementById("board");
   if (canvas.getContext) {
+  	
+  	var boardsize = 500;
+  	var center = 250;
     var outsideBoard = 200;
+    var textRadius = 180;
     var insideBoard = outsideBoard - 25;
     var outsideDouble = insideBoard - 1;
-    var insideDouble = outsideDouble - 15 ;
+    var insideDouble = outsideDouble - 20 ;
     var outsideFirstBed = insideDouble - 1;
-    var insideFirstBed = outsideFirstBed - 45;
+    var insideFirstBed = outsideFirstBed - 50;
     var outsideTreble = insideFirstBed - 1;
-    var insideTreble = outsideTreble - 15;
-    var outsideSecondBed = 129;
-    var insideSecondBed = 99;
-    var outerBull = 0;
-    var bull = 0;
+    var insideTreble = outsideTreble - 20;
+    var outsideSecondBed = insideTreble - 1;
+    var insideSecondBed = outsideSecondBed - 60;
+    var outerBull = 30;
+    var bull = 15;
     
     ctx = canvas.getContext("2d");
     ctx.clearRect(0,0,500,500);
@@ -39,11 +43,40 @@ function drawboard() {
       ctx.fillStyle = blackColor;
       // Outer Board
       ctx.beginPath();
-      ctx.arc(250, 250, outsideBoard, angle, angle + arc, false);
-      ctx.arc(250, 250, insideBoard, angle + arc, angle, true);
+      ctx.arc(center, center, outsideBoard, angle, angle + arc, false);
+      ctx.arc(center, center, insideBoard, angle + arc, angle, true);
+      ctx.stroke();
+      ctx.fill();
+      ctx.save();
+      //ctx.shadowOffsetX = -1;
+      //ctx.shadowOffsetY = -1;
+      //ctx.shadowBlur    = 0;
+      //ctx.shadowColor   = "rgb(220,220,220)";
+      ctx.font = "14pt Calibri";
+      ctx.fillStyle = numberColor;
+      ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 
+                    250 + Math.sin(angle + arc / 2) * textRadius);
+      ctx.rotate(angle + arc / 2 + Math.PI / 2);
+      var text = numbers[i];
+      ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+      ctx.restore();
+      
+      //Doubles 
+	  if(i % 2 == 0)
+      {
+      	ctx.fillStyle = multipecolors[0];
+      }
+      else
+      {
+      	ctx.fillStyle = multipecolors[1];
+      }
+	  ctx.beginPath();
+      ctx.arc(center, center, outsideDouble, angle, angle + arc, false);
+      ctx.arc(center, center, insideDouble, angle + arc, angle, true);
       ctx.stroke();
       ctx.fill();
       
+      //First Bed
       if(i % 2 == 0)
       {
       	ctx.fillStyle = maincolors[0];
@@ -52,28 +85,60 @@ function drawboard() {
       {
       	ctx.fillStyle = maincolors[1];
       }
-      //Doubles 
-	  ctx.beginPath();
-      ctx.arc(250, 250, outsideDouble, angle, angle + arc, false);
-      ctx.arc(250, 250, insideDouble, angle + arc, angle, true);
-      ctx.stroke();
-      ctx.fill();
-      
-      //Main
       ctx.beginPath();
-      ctx.arc(250, 250, outsideFirstBed, angle, angle + arc, false);
-      ctx.arc(250, 250, insideFirstBed, angle + arc, angle, true);
+      ctx.arc(center, center, outsideFirstBed, angle, angle + arc, false);
+      ctx.arc(center, center, insideFirstBed, angle + arc, angle, true);
       ctx.stroke();
       ctx.fill();
       
       //Trebles 
-      
+      if(i % 2 == 0)
+      {
+      	ctx.fillStyle = multipecolors[0];
+      }
+      else
+      {
+      	ctx.fillStyle = multipecolors[1];
+      }
 	  ctx.beginPath();
-      ctx.arc(250, 250, outsideTreble, angle, angle + arc, false);
-      ctx.arc(250, 250, insideTreble, angle + arc, angle, true);
+      ctx.arc(center, center, outsideTreble, angle, angle + arc, false);
+      ctx.arc(center, center, insideTreble, angle + arc, angle, true);
       ctx.stroke();
       ctx.fill();
-      
-    } 
+
+      //First Bed
+      if(i % 2 == 0)
+      {
+      	ctx.fillStyle = maincolors[0];
+      }
+      else
+      {
+      	ctx.fillStyle = maincolors[1];
+      }
+      ctx.beginPath();
+      ctx.arc(center, center, outsideSecondBed, angle, angle + arc, false);
+      ctx.arc(center, center, insideSecondBed, angle + arc, angle, true);
+      ctx.stroke();
+      ctx.fill();
+            
+    }
+    
+    //Draw outerbull 
+    ctx.strokeStyle = "#000000";
+	ctx.fillStyle = multipecolors[0];
+	ctx.beginPath();
+	ctx.arc(center,center,outerBull,0,Math.PI*2,true);
+	ctx.closePath();
+	ctx.stroke();
+	ctx.fill();
+ 
+ 	ctx.strokeStyle = "#000000";
+	ctx.fillStyle = multipecolors[1];
+	ctx.beginPath();
+	ctx.arc(center,center,bull,0,Math.PI*2,true);
+	ctx.closePath();
+	ctx.stroke();
+	ctx.fill();
+	
   }
 }
