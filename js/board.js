@@ -125,7 +125,7 @@ function drawboard() {
     
     //Draw outerbull 
     ctx.strokeStyle = "#000000";
-	ctx.fillStyle = multipecolors[0];
+	ctx.fillStyle = multipecolors[1];
 	ctx.beginPath();
 	ctx.arc(center,center,outerBull,0,Math.PI*2,true);
 	ctx.closePath();
@@ -133,7 +133,7 @@ function drawboard() {
 	ctx.fill();
  
  	ctx.strokeStyle = "#000000";
-	ctx.fillStyle = multipecolors[1];
+	ctx.fillStyle = multipecolors[0];
 	ctx.beginPath();
 	ctx.arc(center,center,bull,0,Math.PI*2,true);
 	ctx.closePath();
