@@ -10,9 +10,59 @@ var blackColor = "#000000";
 var numberColor = "#ffffff";
 var maincolors = ["#000000", "#D2CFA6"];
 var multipecolors = ["#C41F26", "#42B955"];
+var darts = [];
+function getMousePos(canvas, evt){
+    // get canvas positionr 
+    var obj = canvas;
+    var top = 0;
+    var left = 0;
+    while (obj && obj.tagName != 'BODY') {
+        top += obj.offsetTop;
+        left += obj.offsetLeft;
+        obj = obj.offsetParent;
+    }
+ 
+    // return relative mouse position
+    var mouseX = evt.clientX - left + window.pageXOffset;
+    var mouseY = evt.clientY - top + window.pageYOffset;
+    return {
+        x: mouseX,
+        y: mouseY
+    };
+}
+
+function onclick(x, y)
+{
+	if(darts.length > 3)
+	{
+		return;
+	}
+	var canvas = document.getElementById("board");
+  	ctx = canvas.getContext("2d");
+    ctx.strokeStyle = "#000000";
+	ctx.fillStyle = "#00ff00";
+	ctx.beginPath();
+	console.log(darts.length)
+	ctx.arc(x,y,10,0,Math.PI*2,true);
+	ctx.closePath();
+	ctx.stroke();
+	ctx.fill();
+}
+
 
 function drawboard() {
+	
   var canvas = document.getElementById("board");
+  
+  canvas.addEventListener('click', function(evt){
+        var mousePos = getMousePos(canvas, evt);
+        darts.push(mousePos);
+        ///var message = "Mouse position: " + mousePos.x + "," + mousePos.y;
+        onclick(mousePos.x, mousePos.y);
+        //var message = "Mouse position: " + mousePos.x + "," + mousePos.y;
+        return false;
+    }, false);
+    
   if (canvas.getContext) {
   	
   	var boardsize = 500;
@@ -21,11 +71,11 @@ function drawboard() {
     var textRadius = 180;
     var insideBoard = outsideBoard - 25;
     var outsideDouble = insideBoard - 1;
-    var insideDouble = outsideDouble - 20 ;
+    var insideDouble = outsideDouble - 25 ;
     var outsideFirstBed = insideDouble - 1;
     var insideFirstBed = outsideFirstBed - 50;
     var outsideTreble = insideFirstBed - 1;
-    var insideTreble = outsideTreble - 20;
+    var insideTreble = outsideTreble - 25;
     var outsideSecondBed = insideTreble - 1;
     var insideSecondBed = outsideSecondBed - 60;
     var outerBull = 30;
